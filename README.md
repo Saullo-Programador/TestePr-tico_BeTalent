@@ -39,56 +39,60 @@ Antes de rodar o projeto você precisa ter instalado:
 # 📥 Instalação
 
 Clone o repositório:
-
+```
 git clone https://github.com/seu-usuario/payment-gateway-api.git
 
+```
 Entre na pasta do projeto:
 
+```
 cd payment-gateway-api
+```
 
 Instale as dependências:
-
+```
 composer install
-
+```
 Copie o arquivo de ambiente:
-
+```
 cp .env.example .env
-
+```
 Configure o banco de dados no arquivo `.env`.
 
 Depois gere a chave da aplicação:
 
+```
 php artisan key:generate
-
+```
 ---
 
 # 🗄️ Banco de Dados
 
 Execute as migrations:
-
+```
 php artisan migrate
-
+```
 As principais tabelas criadas são:
 
-users
-gateways
-clients
-products
-transactions
-transaction_products
+- users
+- gateways
+- clients
+- products
+- transactions
+- transaction_products
 
 ---
 
 # ▶️ Rodando a aplicação
 
 Inicie o servidor:
-
+```
 php artisan serve
-
+```
 A API estará disponível em:
-
+```
 http://localhost:8000
-
+```
 ---
 
 # 💳 Rodando os Gateways Mock
@@ -96,44 +100,44 @@ http://localhost:8000
 Para simular os gateways de pagamento utilize o Docker:
 
 Sem autenticação:
-
+```
 docker run -p 3001:3001 -p 3002:3002 -e REMOVE_AUTH='true' matheusprotzen/gateways-mock
-
+```
 Gateway 1 ficará disponível em:
-
+```
 http://localhost:3001
-
+```
 Gateway 2 ficará disponível em:
-
+```
 http://localhost:3002
-
+```
 ---
 
 # 📡 Endpoint Principal
 
 ## Realizar compra
-
+```
 POST /purchase
-
+```
 ### Body
-
+```
 {
-"name": "Cliente Teste",
-"email": "[cliente@email.com](mailto:cliente@email.com)",
-"cardNumber": "5569000000006063",
-"cvv": "010",
-"products": [
-{
-"id": 1,
-"quantity": 2
-},
-{
-"id": 2,
-"quantity": 1
+    "name": "Cliente Teste",
+    "email": "[cliente@email.com](mailto:cliente@email.com)",
+    "cardNumber": "5569000000006063",
+    "cvv": "010",
+    "products": [
+        {
+            "id": 1,
+            "quantity": 2
+        },
+        {
+            "id": 2,
+            "quantity": 1
+        }
+    ]
 }
-]
-}
-
+```
 ### Funcionamento
 
 1. A API recebe a requisição de compra.
@@ -149,27 +153,27 @@ POST /purchase
 # 📄 Resposta da API
 
 Sucesso:
-
+```
 {
 "status": "success",
 "amount": 3000
 }
-
+```
 Falha:
-
+```
 {
 "status": "failed",
 "amount": 3000
 }
-
+```
 ---
 
 # 🧪 Testes
 
 Para rodar os testes automatizados execute:
-
+```
 php artisan test
-
+```
 ---
 
 # 📊 Estrutura das Principais Entidades
