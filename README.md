@@ -40,7 +40,7 @@ Antes de rodar o projeto você precisa ter instalado:
 
 Clone o repositório:
 ```
-git clone https://github.com/seu-usuario/payment-gateway-api.git
+git clone https://github.com/Saullo-Programador/TestePr-tico_BeTalent.git
 
 ```
 Entre na pasta do projeto:
