@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionProducts extends Model
 {
-
+    public $timestamps = false;
     protected $fillable=[
 
         "transaction_id",
