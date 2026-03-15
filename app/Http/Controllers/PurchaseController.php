@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\TransactionProducts;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -36,7 +37,6 @@ class PurchaseController extends Controller
 
                 $product = Product::findOrFail($item['id']);
                 $amount += $product->amount * $item['quantity'];
-
             }
 
             $client = Client::create([
@@ -53,18 +53,13 @@ class PurchaseController extends Controller
                     "cardNumber" => $request->cardNumber,
                     "cvv" => $request->cvv
                 ]);
-
             } catch (\Exception $e) {
 
                 Log::error("Payment failed: " . $e->getMessage());
-
-                $payment = [
-                    "id" => null
-                ];
-
+                $payment = ["id" => null];
             }
 
-            Transaction::create([
+            $transaction = Transaction::create([
                 "client_id" => $client->id,
                 "gateway_id" => 1,
                 "external_id" => $payment["id"] ?? null,
@@ -73,12 +68,19 @@ class PurchaseController extends Controller
                 "card_last_numbers" => substr($request->cardNumber, -4)
             ]);
 
+            foreach ($products as $item) {
+
+                TransactionProducts::create([
+                    "transaction_id" => $transaction->id,
+                    "product_id" => $item["id"],
+                    "quantity" => $item["quantity"]
+                ]);
+            }
+
             return response()->json([
                 "status" => $payment["id"] ? "success" : "failed",
                 "amount" => $amount
             ]);
-
         });
-
     }
 }
